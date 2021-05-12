@@ -32,7 +32,8 @@ export const getMany = (model) => async (req, res) => {
     .countDocuments({ createdBy: req.user.id })
     .exec();
 
-  const totalPages = limit === 0 ? 1 : Math.ceil(totalResults / limit);
+  const totalPages =
+    limit === 0 || totalResults === 0 ? 1 : Math.ceil(totalResults / limit);
 
   if (page < 1 || page > totalPages) {
     res.status(400).json({ message: 'Incorrect page number' });
