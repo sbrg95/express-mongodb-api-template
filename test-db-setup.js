@@ -1,6 +1,6 @@
+/* eslint-disable jest/no-done-callback */
 import mongoose from 'mongoose';
 import cuid from 'cuid';
-import Logger from './src/utils/logger';
 
 import Todo from './src/resources/todo/todo.model';
 import User from './src/resources/user/user.model';
@@ -14,7 +14,7 @@ const url =
 
 const remove = (collection) =>
   new Promise((resolve, reject) => {
-    collection.remove((err) => {
+    collection.deleteMany((err) => {
       if (err) {
         reject(err);
         return;
@@ -23,30 +23,43 @@ const remove = (collection) =>
     });
   });
 
-beforeEach(async () => {
+beforeEach(async (done) => {
   const db = cuid();
   function clearDB() {
-    return Promise.all(mongoose.connection.collections.map((c) => remove(c)));
+    const collections = { ...mongoose.connection.collections };
+    return Promise.all(
+      Object.keys(collections).map((collection) =>
+        remove(collections[collection])
+      )
+    );
   }
 
   if (mongoose.connection.readyState === 0) {
     try {
       await mongoose.connect(url + db, {
         useNewUrlParser: true,
-        autoIndex: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
       });
-
       await clearDB();
-      await Promise.all(models.map((model) => model.init()));
+      await Promise.all(
+        Object.keys(models).map((model) => models[model].init())
+      );
     } catch (err) {
-      Logger.error(`Database connection failled: ${err}`);
+      // eslint-disable-next-line no-console
+      console.error(err);
     }
   } else {
     await clearDB();
   }
+  done();
 });
 
-afterEach(async () => {
+afterEach(async (done) => {
   await mongoose.connection.db.dropDatabase();
   await mongoose.disconnect();
+  return done();
 });
+
+afterAll((done) => done());

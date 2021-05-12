@@ -14,7 +14,7 @@ import todoRouter from './resources/todo/todo.router';
 import { signinValidation, signupValidation } from './utils/validation';
 import { errorHandler, morganMiddleware } from './utils/middlewares';
 
-const app = express();
+export const app = express();
 
 // set security HTTP headers
 app.use(helmet());
@@ -45,7 +45,7 @@ app.use('/api/todo', todoRouter);
 // catching errors
 app.use(errorHandler);
 
-const start = async () => {
+export const start = async () => {
   try {
     await connect();
     app.listen(config.port, () => {
@@ -55,5 +55,3 @@ const start = async () => {
     Logger.error(err);
   }
 };
-
-export default start;
