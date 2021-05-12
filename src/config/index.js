@@ -1,6 +1,6 @@
-import { merge } from 'lodash';
 import devConfig from './devConfig';
 import testConfig from './testConfig';
+import { merge } from '../utils/functions';
 
 const env = process.env.NODE_ENV || 'development';
 

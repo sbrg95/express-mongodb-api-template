@@ -18,4 +18,19 @@ export const cleanResponse = (response) => {
   return cleaned;
 };
 
-export const tempFunc = () => null;
+// Merge a `source` object to a `target` recursively
+export const merge = (target, source) => {
+  /* 
+    Iterate through `source` properties and if an `Object` 
+    set property to merge of `target` and `source` properties
+  */
+  Object.keys(source).forEach((key) => {
+    if (source[key] instanceof Object) {
+      Object.assign(source[key], merge(target[key], source[key]));
+    }
+  });
+
+  // Join `target` and modified `source`
+  Object.assign(target || {}, source);
+  return target;
+};
