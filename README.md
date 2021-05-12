@@ -1,6 +1,6 @@
 # RESTful API Express MongoDB Template
 
-[![Author](http://img.shields.io/badge/author-@sbrg95-blue.svg)](https://www.linkedin.com/in/sbrg95/) [![GitHub license](https://img.shields.io/github/license/sbrg95/express-mongodb-api-template.svg)](https://github.com/sbrg95/express-mongodb-api-template/blob/master/LICENSE)
+[![Author](http://img.shields.io/badge/author-@sbrg95-blue.svg)](https://www.linkedin.com/in/sbrg95/) [![GitHub license](https://img.shields.io/github/license/sbrg95/express-mongodb-api-template)](https://github.com/sbrg95/express-mongodb-api-template/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 Template/Starter Project for building RESTful APIs using Node.js, Express and MongoDB
