@@ -50,8 +50,11 @@ export const getMany = (model) => async (req, res) => {
 };
 
 export const createOne = (model) => async (req, res) => {
-  const doc = await model.create({ ...req.body, createdBy: req.user.id });
-  res.status(201).json({ data: cleanResponse(doc) });
+  const createdDoc = await model.create({
+    ...req.body,
+    createdBy: req.user.id,
+  });
+  res.status(201).json({ data: cleanResponse(createdDoc._doc) });
 };
 
 export const updateOne = (model) => async (req, res) => {
@@ -76,10 +79,13 @@ export const updateOne = (model) => async (req, res) => {
 };
 
 export const removeOne = (model) => async (req, res) => {
-  const removed = await model.findOneAndRemove({
-    createdBy: req.user.id,
-    _id: req.params.id,
-  });
+  const removed = await model
+    .findOneAndRemove({
+      createdBy: req.user.id,
+      _id: req.params.id,
+    })
+    .lean()
+    .exec();
 
   if (!removed) {
     res.status(404).json({ message: 'Resource not found' });
