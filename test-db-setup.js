@@ -1,11 +1,14 @@
 /* eslint-disable jest/no-done-callback */
 import mongoose from 'mongoose';
 import cuid from 'cuid';
+import config from './src/config';
 
 import Todo from './src/resources/todo/todo.model';
 import User from './src/resources/user/user.model';
 
 const models = { User, Todo };
+
+const url = config.dbUrl;
 
 const url =
   process.env.MONGODB_URI ||
